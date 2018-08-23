@@ -7,7 +7,7 @@ The taxdump file's from NCBI, along with the 'nr' database, are often used in me
 This tool will allow you to modify the 'taxdump' (names.dmp and nodes.dmp) files from NCBI, to temporarily include your organisms - until they find represenration of their own in the NCBI taxonomy.
 
 ## How?
-The script will automatically calculate the latest taxonomic ID, increment from that point and assign it to your new taxa. If you are adding a group.... 
+The script will automatically find the largest taxonomic ID, increment from that point (with 10^length-1) and assign it to your new taxa, this is to avoid conflicts with taxdump updates. If you are adding a group.... 
 
 ## Usage
 ```
