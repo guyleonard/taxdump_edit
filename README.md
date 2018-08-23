@@ -1,17 +1,41 @@
 # Taxdump Edit
 
 ## Why?
-The taxdump file's from NCBI, along with the 'nr' database, are often used in meta -genomics and -transcriptomics software to inform taxonomic identification of reads, contigs and ORFs. However, if you are working with organisms that have little to no representation in the NCBI databases you may find yourself stuck. Many researchers in this situation will have custom databases of genomic/transcriptomic data, but may still find their organism unavailable within the NCBI taxaonomy. If your organism does not have a TaxID in NCBI then you are unable to use many of the software packages that rely on 'taxdump' to extract taxonomic lineage and naming information.
+The taxdump files from NCBI, along with the 'nr' database, are often used in meta -genomics and -transcriptomics software to inform taxonomic identification of reads, contigs and ORFs. However, if you are working with organisms that have little to no representation in the NCBI databases then you may find yourself a bit stuck.
+
+Many researchers in this situation will have custom databases of genomic/transcriptomic data and want to use it, but may still find their organism(s) unavailable within the NCBI taxonomy DB. If your organism does not have a valid TaxID in NCBI then you are unable to use many of the software packages that rely on 'taxdump' to extract taxonomic lineage and naming information with your custom DBs.
 
 ## What?
-This tool will allow you to modify the 'taxdump' (names.dmp and nodes.dmp) files from NCBI, to temporarily include your organisms - until they find represenration of their own in the NCBI taxonomy.
+This tool will allow you to modify the 'taxdump' (names.dmp and nodes.dmp) files from NCBI, to temporarily include your organisms - until they find represenration of their own in the NCBI taxonomy lineage.
 
 ## How?
-The script will automatically find the largest taxonomic ID, increment from that point (with 10^length-1) and assign it to your new taxa, this is to avoid conflicts with taxdump updates. If you are adding a group.... 
+The script will automatically find the largest taxonomic ID in nodes.dmp and increment from that point (with a 10^length-1 addition) and assign it to your new taxa. This large addition is to avoid future conflicts with taxdump updates. If you are adding a group.... 
 
 ## Usage
 ```
     perl taxdump_edit.pl ----
+    
+    required input
+        node.dmp location
+	names.dmp location
+	parent taxID
+	rank
+	division
+    optional input (names)
+        unique name
+    default values (names)
+        name class = scientific name
+    optional input (nodes)
+        embl code
+	genetic code (1)
+	mitochondria genetic code (1)
+	comments
+    default values (nodes)
+        inherited div flag = 1
+	inherited GC flag = 1
+	inherited MGC flag = 1
+	GenBank hidden flag = 1
+	hidden subtree root flag = 1
 ```
 
 # More Information 
