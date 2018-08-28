@@ -40,6 +40,31 @@ The script will automatically find the largest taxonomic ID in nodes.dmp and inc
 		GenBank hidden flag = 1
 		hidden subtree root flag = 1
 ```
+## Example
+### New 'species'
+Adding a new 'species' lineage, for example, MAST-4A. We know by looking at the NCBI Taxonomy that there is a group for "Stramenopiles MAST-4" at TaxID:[1735725](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1735725) with a lineage of "cellular organisms; Eukaryota; Stramenopiles; unclassified stramenopiles". This is correct for our new organism, so we need to note down the TaxID of '1735725'. Then use the script as below:
+
+    taxdump_edit.pl -names names.dmp -nodes nodes.dmp -taxa MAST-4A -parent 1735725 -rank species -division 11
+
+This will show the output:
+
+    Your calculated TaxID = 3304349. Please use this with makeblastdb and your fasta sequences.
+    Backing up orginal names.dmp
+    Appending new line
+    Done.
+    Backing up orginal nodes.dmp
+    Appending new line
+    Finished.
+Remember your new TaxID of '3304349', this is the ID you will need to use with *makeblastdb*.
+
+At the end of the names.dmp file, you will now have a new record:
+
+    3304349	|	MAST-4A	|		|	scientific name	|
+Along with the corresponding record in nodes.dmp
+    
+    3304349	|	1735725	|	species	|		|	11	|	1	|	1	|	1	|	1	|	1	|	1	|	1	|
+
+The original nodes.dmp and names.dmp have been backed up in the same location as nodes_backup.dmp and names_backup.dmp.
 
 ### Variable Options
 #### Divisions
