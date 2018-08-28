@@ -45,16 +45,23 @@ GetOptions(
 
     # other
     'version|v' => sub { print "$version\n" },
-    'help|h'    => sub { help_message("Hello :) How can I help?") }
-) or help_message("Hello :) Something is missing...");
+    'h'         => sub { help_message( "Welcome to $version", 0 ) },
+    'help'      => sub { help_message( "Welcome to $version", 1 ) }
+) or help_message( "Hello :) Something is missing...", 0 );
 
-help_message("The nodes.dmp location must be specified.")       unless defined $nodes;
-help_message("The names.dmp location must be specified.")       unless defined $names;
-help_message("The taxon name or group name must be specified.") unless defined $new_name;
-help_message("The parent taxa ID must be specified.")           unless defined $parent_tax_id;
-help_message("The rank must be specified.")                     unless defined $rank;
-help_message("The division must be specified.")                 unless defined $division_id;
+help_message( "The nodes.dmp location must be specified.", 0 )
+  unless defined $nodes;
+help_message( "The names.dmp location must be specified.", 0 )
+  unless defined $names;
+help_message( "The taxon name or group name must be specified.", 0 )
+  unless defined $new_name;
+help_message( "The parent taxa ID must be specified.", 0 )
+  unless defined $parent_tax_id;
+help_message( "The rank must be specified.", 0 ) unless defined $rank;
+help_message( "The division must be specified.", 0 )
+  unless defined $division_id;
 
+# Get the largets Tax ID from the user specified nodes.dmp
 my $largest_taxid = get_largest_tax_id($nodes);
 
 ## shared variables
@@ -97,6 +104,7 @@ sub get_largest_tax_id {
 
 sub help_message {
     my $message = $_[0];
+    my $verbose = $_[1];
     if ( defined $message && length $message ) {
         $message .= "\n"
           unless $message =~ /\n$/;
@@ -110,6 +118,7 @@ sub help_message {
     #);
     print "$message\n";
     print "usage: $command -names names.dmp -nodes node.dmp ...\n";
+    print "Use -help for a more verbose help message.\n";
 
     my %divisions = (
         "0"  => "Bacteria",
@@ -155,68 +164,25 @@ sub help_message {
         "31" => "Blastocrithidia Nuclear"
     );
 
-    print "\nDivisions:\n";
-    foreach ( sort {$a<=>$b} keys %divisions ) {
-        print "$_ : $divisions{$_}\n";
-    }
+    my $name_class = "Acronym\nAnamorph\nAuthority\nBlast Name\nCommon Name\nEquivalent Name\nGenbank Acronym\nGenbank Anamorph\nGenbank Common Name\nGenbank Synonym\nIncludes\nIn-part\nMisnomer\nMisspelling\nScientific Name\nSynonym\nTeleomorph\nType Material";
 
-    print "\nGenetic Codes:\n";
-    foreach ( sort {$a<=>$b} keys %genetic_code ) {
-        print "$_ : $genetic_code{$_}\n";
+    my $taxonomic_rank = "no rank\nsuperkingdom\n\tkingdom\n\t\tsubkingdom\nsuperphylum\n\tphylum\n\t\tsubphylum\nsuperclass\n\tclass\n\t\tsubclass\n\t\t\tinfraclass\ncohort\nsuperorder\n\torder\n\t\tsuborder\n\t\t\tinfraorder\n\t\t\t\tparvorder\nsuperfamily\n\tfamily\n\t\tsubfamily\n\t\ttribe\n\t\t\tsubtribe\n\tgenus\n\t\tsubgenus\nspecies group\n\tspecies\n\tspecies subgroup\n\t\t\subspecies\n\t\t\tvarietas\n\t\t\t\tforma\n";
+
+    if ( $verbose == 1 ) {
+        print "\nDivisions (use number code):\n";
+        foreach ( sort { $a <=> $b } keys %divisions ) {
+            print "$_: $divisions{$_}\n";
+        }
+
+        print "\nGenetic Codes (use number code):\n";
+        foreach ( sort { $a <=> $b } keys %genetic_code ) {
+            print "$_: $genetic_code{$_}\n";
+        }
+
+        print "\nName Class (use name):\n$name_class\n";
+
+        print "\nTaxonomic Rank (use name):\n$taxonomic_rank\n";
     }
 
     exit(1);
 }
-
-## name class
-# acronym
-# anamorph
-# authority
-# blast name
-# common name
-# equivalent name
-# genbank acronym
-# genbank anamorph
-# genbank common name
-# genbank synonym
-# includes
-# in-part
-# misnomer
-# misspelling
-# scientific name
-# synonym
-# teleomorph
-# type material
-
-## ranks
-# class
-# cohort
-# family
-# forma
-# genus
-# infraclass
-# infraorder
-# kingdom
-# no rank
-# order
-# parvorder
-# phylum
-# species
-# species group
-# species subgroup
-# subclass
-# subfamily
-# subgenus
-# subkingdom
-# suborder
-# subphylum
-# subspecies
-# subtribe
-# superclass
-# superfamily
-# superkingdom
-# superorder
-# superphylum
-# tribe
-# varietas
-
