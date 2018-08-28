@@ -136,12 +136,32 @@ sub help_message {
     my $command = $0;
     $command =~ s#^.*/##;
 
-    #print STDERR (
-    #    $message,
-    #    "usage: $command -names names.dmp -nodes node.dmp ...\n" . "       ...\n" . "       ...\n" . "       ...\n" .
-    #);
     print "$message\n";
-    print "usage: $command -names names.dmp -nodes node.dmp ...\n";
+    print "usage: $command -names names.dmp -nodes nodes.dmp -taxa NAME -parent XXX -rank NAME -division X\n";
+    print << "HELP"; 
+Required Input:
+\t-names names.dmp location
+\t-nodes nodes.dmp location
+\t-taxa new taxa/group name
+\t-parent parent TaxID
+\t-rank rank name (see -help)
+\t-division division ID (see -help)
+Optional Input (names.dmp):
+\tunique name
+Default Values (names.dmp):
+\tname class (scientific name) (see -help)
+Optional Input (nodes.dmp):
+\tembl code
+\tgenetic code (1) (see -help)
+\tmitochondria genetic code (1) (see -help)
+\tcomments
+Default Values (nodes.dmp):
+\tinherited div flag = 1
+\tinherited GC flag = 1
+\tinherited MGC flag = 1
+\tGenBank hidden flag = 1
+\thidden subtree root flag = 1
+HELP
     print "Use -help for a more verbose help message.\n";
 
     my %divisions = (
