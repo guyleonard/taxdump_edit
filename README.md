@@ -38,6 +38,98 @@ The script will automatically find the largest taxonomic ID in nodes.dmp and inc
 	hidden subtree root flag = 1
 ```
 
+### Variable Options
+#### Divisions
+	0 -> Bacteria
+	1 -> Invertebrates
+	2 -> Mammals
+	3 -> Phages
+	4 -> Plants and Fungi
+	5 -> Primates
+	6 -> Rodents
+	7 -> Synthetic and Chimeric
+	~~8 -> Unassigned - Do Not Use~~
+	9 -> Viruses
+	10 -> Vertebrates
+	11 -> Environmental Samples
+#### Genetic Code
+	0 -> Unspecified
+	1 -> Standard
+	2 -> Vertebrate Mitochondrial
+	3 -> Yeast Mitochondrial
+	4 -> Mold Mitochondrial; Protozoan Mitochondrial; Coelenterate Mitochondrial; Mycoplasma; Spiroplasma
+	5 -> Invertebrate Mitochondrial
+	6 -> Ciliate Nuclear; Dasycladacean Nuclear; Hexamita Nuclear
+	9 -> Echinoderm Mitochondrial; Flatworm Mitochondrial
+	10 -> Euplotid Nuclear
+	11 -> Bacterial, Archaeal and Plant Plastid
+	12 -> Alternative Yeast Nuclear
+	13 -> Ascidian Mitochondrial
+	14 -> Alternative Flatworm Mitochondrial
+	15 -> Blepharisma Macronuclear
+	16 -> Chlorophycean Mitochondrial
+	21 -> Trematode Mitochondrial
+	22 -> Scenedesmus obliquus mitochondrial
+	23 -> Thraustochytrium mitochondrial code
+	24 -> Pterobranchia Mitochondrial
+	25 -> Candidate Division SR 1 and Gracilibacteria
+	26 -> Pachysolen tannophilus Nuclear
+	27 -> Karyorelict Nuclear
+	28 -> Condylostoma Nuclear
+	29 -> Mesodinium Nuclear
+	30 -> Peritrich Nuclear
+	31 -> Blastocrithidia Nuclear
+#### Name Class
+	Acronym
+	Anamorph
+	Authority
+	Blast Name
+	Common Name
+	Equivalent Name
+	Genbank Acronym
+	Genbank Anamorph
+	Genbank Common Name
+	Genbank Synonym
+	Includes
+	In-part
+	Misnomer
+	Misspelling
+	Scientific Name
+	Synonym
+	Teleomorph
+	Type Material
+#### Taxonomic Rank
+	no rank
+	superkingdom
+		kingdom
+			subkingdom
+	superphylum
+		phylum
+			subphylum
+	superclass
+		class
+			subclass
+				infraclass
+	cohort
+	superorder
+		order
+			suborder
+				infraorder
+					parvorder
+	superfamily
+		family
+			subfamily
+			tribe
+				subtribe
+		genus
+			subgenus
+	species group
+		species
+		species subgroup
+			subspecies
+				varietas
+					forma
+
 # More Information 
 ## Structure of \*.dmp files
 As per NCBI's taxdump_readme.txt:
