@@ -2,6 +2,8 @@
 use strict;
 use warnings;
 
+use File::Basename;
+use File::Copy;
 use Getopt::Long;
 
 our $VERSION = 0.1;
@@ -64,15 +66,24 @@ help_message( "The division must be specified.", 0 )
 # Get the largest Tax ID from the user specified nodes.dmp
 my $largest_taxid = get_largest_tax_id($nodes);
 
-## shared variables
-# increased by a factor of 10 to it's length-1, to avoid conflicts
+# $largest_taxid increased by a factor of 10 to it's length - 1, to avoid conflicts
 my $new_taxid = $largest_taxid + ( 10**( length($largest_taxid) - 1 ) );
 
 print "Your calculated TaxID = $new_taxid. Please use this with makeblastdb and your fasta sequences.\n";
 
-print "names.dmp:\n$new_taxid\t\|\t$new_name\t\|\t$new_name_unique\t\|\t$new_name_class\t\|\n";
+## Edit Names.dmp
+my ( $file, $dir, $ext ) = fileparse $names, '\.dmp';
+my $names_edit = "$dir\/$file\_edit$ext";
+copy($names, $names_edit), or die "Copy failed: $!";
+open(my $names_edit_fh, '>>', $names_edit);
+print $names_edit_fh "$new_taxid\t\|\t$new_name\t\|\t$new_name_unique\t\|\t$new_name_class\t\|\n";
 
-print "nodes.dmp:\n$new_taxid\t\|\t$parent_tax_id\t\|\t$rank\t\|\t$embl_code\t\|\t$division_id\t\|\t$inherited_div_flag\t\|\t$genetic_code_id\t\|\t$inherited_GC_flag\t\|\t$mito_gen_code_id\t\|\t$inherited_MGC_flag\t\|\t$gb_hidden_flag\t\|\t$hidden_subtree_root_flag\t\|\t$comments\n";
+## Edit Names.dmp
+my ( $file, $dir, $ext ) = fileparse $nodes, '\.dmp';
+my $nodes_edit = "$dir\/$file\_edit$ext";
+copy($nodes, $nodes_edit), or die "Copy failed: $!";
+open(my $nodes_edit_fh, '>>', $nodes_edit);
+print $nodes_edit_fh "$new_taxid\t\|\t$parent_tax_id\t\|\t$rank\t\|\t$embl_code\t\|\t$division_id\t\|\t$inherited_div_flag\t\|\t$genetic_code_id\t\|\t$inherited_GC_flag\t\|\t$mito_gen_code_id\t\|\t$inherited_MGC_flag\t\|\t$gb_hidden_flag\t\|\t$hidden_subtree_root_flag\t\|\t$comments\n";
 
 #############
 # subroutines
