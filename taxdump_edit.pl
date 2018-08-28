@@ -12,6 +12,7 @@ my $version = "taxdump_edit.pl v$VERSION";
 # user inputs
 my $nodes;
 my $names;
+my $override;
 
 ## names.dmp specific
 my $new_name        = '';                   # the name itself
@@ -42,7 +43,7 @@ GetOptions(
     'parent=i'   => \$parent_tax_id,
     'rank=s'     => \$rank,
     'division=i' => \$division_id,
-    #'group=i'    => \$group,
+    'override=i' => \$override,
 
     # optional
 
@@ -68,7 +69,13 @@ help_message( "The division must be specified.", 0 )
 my $largest_taxid = get_largest_tax_id($nodes);
 
 # $largest_taxid increased by a factor of 10 to it's length - 1, to avoid conflicts
-my $new_taxid = $largest_taxid + ( 10**( length($largest_taxid) - 1 ) );
+my $new_taxid;
+if ( defined $override ) {
+    $new_taxid = $override;
+}
+else {
+    $new_taxid = $largest_taxid + ( 10**( length($largest_taxid) - 1 ) );
+}
 
 print "Your calculated TaxID = $new_taxid. Please use this with makeblastdb and your fasta sequences.\n";
 
@@ -77,10 +84,11 @@ print "Your calculated TaxID = $new_taxid. Please use this with makeblastdb and 
 my ( $file, $dir, $ext ) = fileparse $names, '\.dmp';
 my $names_backup = "$dir\/$file\_backup$ext";
 print "Backing up orginal names.dmp\n";
-copy($names, $names_backup), or die "Copy failed: $!";
+copy( $names, $names_backup ), or die "Copy failed: $!";
+
 # append new line
 print "Appending new line\n";
-open(my $names_edit_fh, '>>', $names);
+open( my $names_edit_fh, '>>', $names );
 print $names_edit_fh "$new_taxid\t\|\t$new_name\t\|\t$new_name_unique\t\|\t$new_name_class\t\|\n";
 close($names_edit_fh);
 print "Done.\n";
@@ -90,11 +98,13 @@ print "Done.\n";
 ( $file, $dir, $ext ) = fileparse $nodes, '\.dmp';
 my $nodes_backup = "$dir\/$file\_backup$ext";
 print "Backing up orginal nodes.dmp\n";
-copy($nodes, $nodes_backup), or die "Copy failed: $!";
+copy( $nodes, $nodes_backup ), or die "Copy failed: $!";
+
 # append new line
 print "Appending new line\n";
-open(my $nodes_edit_fh, '>>', $nodes);
-print $nodes_edit_fh "$new_taxid\t\|\t$parent_tax_id\t\|\t$rank\t\|\t$embl_code\t\|\t$division_id\t\|\t$inherited_div_flag\t\|\t$genetic_code_id\t\|\t$inherited_GC_flag\t\|\t$mito_gen_code_id\t\|\t$inherited_MGC_flag\t\|\t$gb_hidden_flag\t\|\t$hidden_subtree_root_flag\t\|\t$comments\n";
+open( my $nodes_edit_fh, '>>', $nodes );
+print $nodes_edit_fh
+"$new_taxid\t\|\t$parent_tax_id\t\|\t$rank\t\|\t$embl_code\t\|\t$division_id\t\|\t$inherited_div_flag\t\|\t$genetic_code_id\t\|\t$inherited_GC_flag\t\|\t$mito_gen_code_id\t\|\t$inherited_MGC_flag\t\|\t$gb_hidden_flag\t\|\t$hidden_subtree_root_flag\t\|\t$comments\n";
 print "Finished.\n";
 
 #############
