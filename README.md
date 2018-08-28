@@ -15,27 +15,28 @@ The script will automatically find the largest taxonomic ID in nodes.dmp and inc
 ```
     perl taxdump_edit.pl ----
     
-    required input
-        node.dmp location
-	names.dmp location
-	parent taxID
-	rank
-	division
-    optional input (names)
-        unique name
-    default values (names)
-        name class = scientific name
-    optional input (nodes)
-        embl code
-	genetic code (1)
-	mitochondria genetic code (1)
-	comments
-    default values (nodes)
-        inherited div flag = 1
-	inherited GC flag = 1
-	inherited MGC flag = 1
-	GenBank hidden flag = 1
-	hidden subtree root flag = 1
+	Required Input:
+		-names names.dmp location
+		-nodes nodes.dmp location
+		-taxa new taxa/group name
+		-parent parent TaxID
+		-rank rank name (see -help)
+		-division division ID (see -help)
+	Optional Input (names.dmp):
+		unique name
+	Default Values (names.dmp):
+		name class (scientific name) (see -help)
+	Optional Input (nodes.dmp):
+		embl code
+		genetic code (1) (see -help)
+		mitochondria genetic code (1) (see -help)
+		comments
+	Default Values (nodes.dmp):
+		inherited div flag = 1
+		inherited GC flag = 1
+		inherited MGC flag = 1
+		GenBank hidden flag = 1
+		hidden subtree root flag = 1
 ```
 
 ### Variable Options
