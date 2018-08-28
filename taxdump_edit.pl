@@ -11,7 +11,7 @@ my $version = "taxdump_edit.pl v$VERSION";
 
 # user inputs
 my $nodes;
-my $names = 'names.dmp';
+my $names;
 
 ## names.dmp specific
 my $new_name        = '';                   # the name itself
@@ -42,6 +42,7 @@ GetOptions(
     'parent=i'   => \$parent_tax_id,
     'rank=s'     => \$rank,
     'division=i' => \$division_id,
+    #'group=i'    => \$group,
 
     # optional
 
@@ -72,18 +73,29 @@ my $new_taxid = $largest_taxid + ( 10**( length($largest_taxid) - 1 ) );
 print "Your calculated TaxID = $new_taxid. Please use this with makeblastdb and your fasta sequences.\n";
 
 ## Edit Names.dmp
+# Backup original file
 my ( $file, $dir, $ext ) = fileparse $names, '\.dmp';
-my $names_edit = "$dir\/$file\_edit$ext";
-copy($names, $names_edit), or die "Copy failed: $!";
-open(my $names_edit_fh, '>>', $names_edit);
+my $names_backup = "$dir\/$file\_backup$ext";
+print "Backing up orginal names.dmp\n";
+copy($names, $names_backup), or die "Copy failed: $!";
+# append new line
+print "Appending new line\n";
+open(my $names_edit_fh, '>>', $names);
 print $names_edit_fh "$new_taxid\t\|\t$new_name\t\|\t$new_name_unique\t\|\t$new_name_class\t\|\n";
+close($names_edit_fh);
+print "Done.\n";
 
 ## Edit Names.dmp
-my ( $file, $dir, $ext ) = fileparse $nodes, '\.dmp';
-my $nodes_edit = "$dir\/$file\_edit$ext";
-copy($nodes, $nodes_edit), or die "Copy failed: $!";
-open(my $nodes_edit_fh, '>>', $nodes_edit);
+# Backup original file
+( $file, $dir, $ext ) = fileparse $nodes, '\.dmp';
+my $nodes_backup = "$dir\/$file\_backup$ext";
+print "Backing up orginal nodes.dmp\n";
+copy($nodes, $nodes_backup), or die "Copy failed: $!";
+# append new line
+print "Appending new line\n";
+open(my $nodes_edit_fh, '>>', $nodes);
 print $nodes_edit_fh "$new_taxid\t\|\t$parent_tax_id\t\|\t$rank\t\|\t$embl_code\t\|\t$division_id\t\|\t$inherited_div_flag\t\|\t$genetic_code_id\t\|\t$inherited_GC_flag\t\|\t$mito_gen_code_id\t\|\t$inherited_MGC_flag\t\|\t$gb_hidden_flag\t\|\t$hidden_subtree_root_flag\t\|\t$comments\n";
+print "Finished.\n";
 
 #############
 # subroutines
