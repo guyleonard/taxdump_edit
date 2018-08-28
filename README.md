@@ -13,8 +13,8 @@ The script will automatically find the largest taxonomic ID in nodes.dmp and inc
 
 ## Usage
 ```
-    perl taxdump_edit.pl ----
-    
+	taxdump_edit.pl -names names.dmp -nodes nodes.dmp -taxa NAME -parent XXX -rank NAME -division X
+
 	Required Input:
 		-names names.dmp location
 		-nodes nodes.dmp location
@@ -22,6 +22,8 @@ The script will automatically find the largest taxonomic ID in nodes.dmp and inc
 		-parent parent TaxID
 		-rank rank name (see -help)
 		-division division ID (see -help)
+	Optional Input
+		-override TaxID from previous
 	Optional Input (names.dmp):
 		unique name
 	Default Values (names.dmp):

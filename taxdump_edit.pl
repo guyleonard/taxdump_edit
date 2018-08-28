@@ -146,6 +146,8 @@ Required Input:
 \t-parent parent TaxID
 \t-rank rank name (see -help)
 \t-division division ID (see -help)
+Optional Input
+\t-override TaxID from previous
 Optional Input (names.dmp):
 \tunique name
 Default Values (names.dmp):
