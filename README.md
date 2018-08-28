@@ -6,10 +6,10 @@ The taxdump files from NCBI, along with the 'nr' database, are often used in met
 Many researchers in this situation will have custom databases of genomic/transcriptomic data and want to use it, but may still find their organism(s) unavailable within the NCBI taxonomy DB. If your organism does not have a valid TaxID in NCBI then you are unable to use many of the software packages that rely on 'taxdump' to extract taxonomic lineage and naming information with your custom DBs.
 
 ## What?
-This tool will allow you to modify the 'taxdump' (names.dmp and nodes.dmp) files from NCBI, to temporarily include your organisms - until they find represenration of their own in the NCBI taxonomy lineage.
+This tool will allow you to modify the 'taxdump' (appending new data to names.dmp and nodes.dmp) files from NCBI, to temporarily include your organisms - until they find represenration of their own in the NCBI taxonomy lineage.
 
 ## How?
-The script will automatically find the largest taxonomic ID in nodes.dmp and increment from that point (with a 10^length-1 addition) and assign it to your new taxa. This large addition is to avoid future conflicts with taxdump updates. If you are adding a group.... 
+The script will automatically find the largest taxonomic ID in nodes.dmp and increment from that point (with a 10^length-1 addition) and assign it to your new taxa. This large addition is to avoid future conflicts with taxdump updates. Once added, you can then run *makeblastdb* with the '-taxid' option and your newly assigned TaxID.
 
 ## Usage
 ```
@@ -41,10 +41,11 @@ The script will automatically find the largest taxonomic ID in nodes.dmp and inc
 		hidden subtree root flag = 1
 ```
 ## Example
-### New 'species'
-Adding a new 'species' lineage, for example, MAST-4A. We know by looking at the NCBI Taxonomy that there is a group for "Stramenopiles MAST-4" at TaxID:[1735725](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1735725) with a lineage of "cellular organisms; Eukaryota; Stramenopiles; unclassified stramenopiles". This is correct for our new organism, so we need to note down the TaxID of '1735725'. Then use the script as below:
+### New 'Species'
+Adding a new 'species' lineage, for example, MAST-4A. We know by looking at the NCBI Taxonomy that there is already a group for "Stramenopiles MAST-4" at TaxID:[1735725](https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=1735725) with a lineage of "cellular organisms; Eukaryota; Stramenopiles; unclassified stramenopiles". This is correct for our new organism, so we need to note down the TaxID of '1735725'. Then use the script as below, this assumes some default options which have been noted in the [Usage](https://github.com/guyleonard/taxdump_edit/blob/master/README.md#usage) section above:
 
     taxdump_edit.pl -names names.dmp -nodes nodes.dmp -taxa MAST-4A -parent 1735725 -rank species -division 11
+We have given the script the location of both names.dmp and nodes.dmp, along with the new taxa name of 'MAST-4A'. We are saying that the parental lineage is TaxID:1735725 and that the rank of the organism is 'species'. The division number is from the [Division](https://github.com/guyleonard/taxdump_edit/blob/master/README.md#divisions) list below, and is 'Environmental Samples' - number 11 - to reflect the provenance of our sample and unlike many other Stramenopiles in NCBI which are listed as '4' - Plants and Fungi. :/ 
 
 This will show the output:
 
@@ -63,8 +64,10 @@ At the end of the names.dmp file, you will now have a new record:
 Along with the corresponding record in nodes.dmp
     
     3304349	|	1735725	|	species	|		|	11	|	1	|	1	|	1	|	1	|	1	|	1	|	1	|
-
 The original nodes.dmp and names.dmp have been backed up in the same location as nodes_backup.dmp and names_backup.dmp.
+
+### New Group
+This is done much in the same way, but you will have to add the different lineage levels one-by-one in order to build the taxonomic relationships. For example, imagine we found a new species 
 
 ### Variable Options
 #### Divisions
