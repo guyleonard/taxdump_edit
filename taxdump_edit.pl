@@ -61,27 +61,18 @@ help_message( "The rank must be specified.", 0 ) unless defined $rank;
 help_message( "The division must be specified.", 0 )
   unless defined $division_id;
 
-# Get the largets Tax ID from the user specified nodes.dmp
+# Get the largest Tax ID from the user specified nodes.dmp
 my $largest_taxid = get_largest_tax_id($nodes);
 
 ## shared variables
 # increased by a factor of 10 to it's length-1, to avoid conflicts
 my $new_taxid = $largest_taxid + ( 10**( length($largest_taxid) - 1 ) );
 
-print "$largest_taxid + 10 ^ (" . length($largest_taxid) . "-1) = $new_taxid\n";
+print "Your calculated TaxID = $new_taxid. Please use this with makeblastdb and your fasta sequences.\n";
 
-# nodes.dmp examples
-#16	|	32011	|	genus	|		|	0	|	1	|	11	|	1	|	0	|	1	|	0	|	0	||
-#23	|	66288	|	genus	|		|	1	|	1	|	1	|	1	|	1	|	1	|	0	|	0	||
+print "names.dmp:\n$new_taxid\t\|\t$new_name\t\|\t$new_name_unique\t\|\t$new_name_class\t\|\n";
 
-# name.dmp examples
-#1	|	all	|		|	synonym	|
-#1	|	root	|		|	scientific name	|
-#2	|	Bacteria	|	Bacteria <prokaryotes>	|	scientific name	|
-#2304220	|	unclassified Planchonella	|		|	scientific name	|
-#2304234	|	unclassified Panax	|		|	scientific name	|
-#2304343	|	Odontostomatea	|		|	scientific name	|
-#2304349	|	Blattamonas Treitli et al. 2018	|		|	authority	|
+print "nodes.dmp:\n$new_taxid\t\|\t$parent_tax_id\t\|\t$rank\t\|\t$embl_code\t\|\t$division_id\t\|\t$inherited_div_flag\t\|\t$genetic_code_id\t\|\t$inherited_GC_flag\t\|\t$mito_gen_code_id\t\|\t$inherited_MGC_flag\t\|\t$gb_hidden_flag\t\|\t$hidden_subtree_root_flag\t\|\t$comments\n";
 
 #############
 # subroutines
@@ -164,9 +155,11 @@ sub help_message {
         "31" => "Blastocrithidia Nuclear"
     );
 
-    my $name_class = "Acronym\nAnamorph\nAuthority\nBlast Name\nCommon Name\nEquivalent Name\nGenbank Acronym\nGenbank Anamorph\nGenbank Common Name\nGenbank Synonym\nIncludes\nIn-part\nMisnomer\nMisspelling\nScientific Name\nSynonym\nTeleomorph\nType Material";
+    my $name_class =
+"Acronym\nAnamorph\nAuthority\nBlast Name\nCommon Name\nEquivalent Name\nGenbank Acronym\nGenbank Anamorph\nGenbank Common Name\nGenbank Synonym\nIncludes\nIn-part\nMisnomer\nMisspelling\nScientific Name\nSynonym\nTeleomorph\nType Material";
 
-    my $taxonomic_rank = "no rank\nsuperkingdom\n\tkingdom\n\t\tsubkingdom\nsuperphylum\n\tphylum\n\t\tsubphylum\nsuperclass\n\tclass\n\t\tsubclass\n\t\t\tinfraclass\ncohort\nsuperorder\n\torder\n\t\tsuborder\n\t\t\tinfraorder\n\t\t\t\tparvorder\nsuperfamily\n\tfamily\n\t\tsubfamily\n\t\ttribe\n\t\t\tsubtribe\n\tgenus\n\t\tsubgenus\nspecies group\n\tspecies\n\tspecies subgroup\n\t\t\subspecies\n\t\t\tvarietas\n\t\t\t\tforma\n";
+    my $taxonomic_rank =
+"no rank\nsuperkingdom\n\tkingdom\n\t\tsubkingdom\nsuperphylum\n\tphylum\n\t\tsubphylum\nsuperclass\n\tclass\n\t\tsubclass\n\t\t\tinfraclass\ncohort\nsuperorder\n\torder\n\t\tsuborder\n\t\t\tinfraorder\n\t\t\t\tparvorder\nsuperfamily\n\tfamily\n\t\tsubfamily\n\t\ttribe\n\t\t\tsubtribe\n\tgenus\n\t\tsubgenus\nspecies group\n\tspecies\n\tspecies subgroup\n\t\tsubspecies\n\t\t\tvarietas\n\t\t\t\tforma\n";
 
     if ( $verbose == 1 ) {
         print "\nDivisions (use number code):\n";
