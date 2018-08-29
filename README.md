@@ -67,7 +67,7 @@ Along with the corresponding record in nodes.dmp
 The original nodes.dmp and names.dmp have been backed up in the same location as nodes_backup.dmp and names_backup.dmp.
 
 ### New Group
-This is done much in the same way, but you will have to add the different lineage levels one-by-one in order to build the taxonomic relationships. For example, imagine we found a new species 
+This is done much in the same way, but you will have to add the different lineage levels one-by-one in order to build the taxonomic relationships. However, we don't want the TaxID to keep on incrementing by 10^length-1, so we can use the -override variable to supply the script with the previous TaxID and it will increment it by 1. Add the 'lowest' rank of your new lineage first, e.g. kingdom before class and then finally genus and species.
 
 ### Variable Options
 #### Divisions
