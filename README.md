@@ -201,3 +201,7 @@ tar zxvf taxdump.tar/gz
 ```
 wget ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump_readme.txt
 ```
+
+## Citation
+[![DOI](https://zenodo.org/badge/145837876.svg)](https://zenodo.org/badge/latestdoi/145837876)
+
